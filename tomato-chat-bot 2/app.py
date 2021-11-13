@@ -17,8 +17,8 @@ handler = WebhookHandler('4618cba20c09232e59c0a554dab4c645')
 
 @app.route("/")
 def test():
-     return"OK"
-
+    return "OK"
+    
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -35,12 +35,15 @@ def callback():
         print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
 
+    return 'OK'
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="your message is " + event.message.text + " ."))
-         
+        TextSendMessage(text=event.message.text))
+
 
 if __name__ == "__main__":
     app.run()
